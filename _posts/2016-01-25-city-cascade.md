@@ -4,7 +4,7 @@ title: 001省市级连查询
 categories: [rails, jquery]
 tags: [rails, jquery]
 comments: true
-description: 级连查询jquery.
+description: ''
 ---
 
 cascade select from new app
