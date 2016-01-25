@@ -1,0 +1,32 @@
+# visit https://github.com/mojombo/jekyll/wiki/Configuration for more settings
+
+paginate: 10 # pagination based on number of posts
+paginate_path: "page:num"
+exclude: ["README.md"] # files to exclude
+highlighter: pygments
+markdown: kramdown
+disqus: colorfulberry
+google_analytics: colorfulberry
+
+defaults:
+  -
+    scope:
+      path: "" # empty string for all files
+    values:
+      title: colorfulberry
+
+description: Stylish Jekyll Theme
+author:
+  name: colorfulberry
+  email: senluowanxiangt@gmail.com
+  github: colorfulberry
+  twitter: colorfulberry_
+  linkedin: colorfulberry
+  bio:  Your stylish, minimalist theme!
+  email_md5: a7fd3e9fab36ae9a0856ccafc479d83c
+
+rss_path: feed.xml
+categories_path: categories.html
+tags_path: tags.html
+
+BASE_PATH:
