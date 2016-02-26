@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 002 rails common gems(rails 常见插件)
+title: 003 rails common gems(rails 常见插件)
 categories: [rails, gems]
 tags: [rails, gems]
 comments: true
