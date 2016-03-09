@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 002 rails production server ubuntu 设置
+title: rails production server ubuntu 设置
 categories: [rails, ubuntu]
 tags: [rails, ubuntu]
 comments: true
@@ -8,7 +8,7 @@ description: ''
 ---
 
 
-###cap 
+### cap
 
 system is ubuntu 14.04
 

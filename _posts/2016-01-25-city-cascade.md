@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 001省市级连查询
+title: 省市级连查询
 categories: [rails, jquery]
 tags: [rails, jquery]
 comments: true
@@ -40,7 +40,7 @@ cascade select from new app
 
 `rails g controller cities index`
 
-####cities_controller.rb
+#### cities_controller.rb
 
 ~~~
   def index
@@ -50,7 +50,7 @@ cascade select from new app
   end
 ~~~
 
-####index.json.jbuilder
+#### index.json.jbuilder
 
 ~~~
 json.array!(@cities) do |city|
@@ -59,7 +59,7 @@ json.array!(@cities) do |city|
 end
 ~~~
 
-####users/_form.html.erb
+#### users/_form.html.erb
 
 ~~~
  <div class="form-group">
@@ -76,7 +76,7 @@ end
 
 ~~~
 $(document).ready(function(){
-  // input provience code return city information 
+  // input provience code return city information
   $(".provience_select").on('change', function(event){
     $(".city_code_select").html('')
     var provience_id = $(event.target).val();
@@ -94,6 +94,6 @@ $(document).ready(function(){
 			error: function() {
 			}
     });
-  }) 
+  })
 })
 ~~~
