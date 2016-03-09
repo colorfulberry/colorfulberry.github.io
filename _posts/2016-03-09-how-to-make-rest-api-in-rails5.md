@@ -1,6 +1,6 @@
 ---
 layout: post
-title: how to make reset api in rails5
+title: how to make rest api in rails5
 categories: [rails]
 tags: [rails]
 comments: true
