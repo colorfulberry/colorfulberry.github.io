@@ -124,13 +124,13 @@ article.home h1 a,
 article.home h2 a,
 article.home h3 a,
 article.home h4 a {
-	color: #507DD6;
+	color: #333;
 }
 article.home h1 a:hover,
 article.home h2 a:hover,
 article.home h3 a:hover,
 article.home h4 a:hover {
-	color: #0851E0;
+	color: #666;
 }
 
 .author .author-image {
