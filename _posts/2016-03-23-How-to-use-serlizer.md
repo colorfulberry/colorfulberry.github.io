@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Active model serializers for rails json
+title: active model serializers for rails json
 categories: [rails]
 tags: [rails]
 comments: true
