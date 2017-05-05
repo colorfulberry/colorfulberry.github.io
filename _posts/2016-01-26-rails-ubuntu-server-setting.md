@@ -8,75 +8,76 @@ description: ''
 ---
 
 
-### cap
+### 部署可用服务
 
-* system is ubuntu 14.00
-  
-  ~~~
-  sudo su - root
-  ~~~
+system is ubuntu 14.00
 
-* apt-get
+`sudo su - root`
 
-  更新 apt-get 和 安装基础包
+#### 初始化服务
+  * 添加公钥
+
+  `vim ~/.ssh/authorized_keys`
+
+  * 更新升级安装基本服务
 
   ~~~
   apt-get update
   apt-get upgrade
   apt-get install make gcc openssl libssl-dev git tig monit unzip
-  apt-get install libxslt-dev libxml2-dev libgmp-dev
   ~~~
 
-* 修改时区(重起系统生效) 和 自动同步时间 和 设置dns
+  * 修改时区(重起系统生效) 和 自动同步时间
 
   ~~~
   cp /usr/share/zoneinfo/Australia/Sydney /etc/localtime
   apt-get install ntp
-
-  vi /etc/resolv.conf
-
-  nameserver 8.8.8.8
   ~~~
 
-* RVM安装
+
+  * 设置dns
 
   ~~~
-  curl -L https://get.rvm.io | bash -s stable
+    vi /etc/resolv.conf
+    nameserver 8.8.8.8
   ~~~
 
   退出登录后重新ssh进来
 
-  安装 ruby 和 安装 bundle
+  * 安装rails 环境
 
-  ~~~
-  rvm requirements
-  rvm install 2.0.0-p247
-  rvm --default use 2.0.0-p247
-  echo gem: --no-ri --no-rdoc > ~/.gemrc  #后面创建的deploy用户需要也做相同设置
-  gem i bundler --pre
+    * rvm
+    ~~~
+    curl -L https://get.rvm.io | bash -s stable
+    ~~~
 
-  rvm gemset create project_production
-  ~~~
+    * 安装 ruby 和 安装 bundle
 
-* nginx安装
+    ~~~
+    rvm requirements
+    rvm install 2.3.2
+    rvm --default use 2.3.2
+    echo gem: --no-ri --no-rdoc > ~/.gemrc  #后面创建的deploy用户需要也做相同设置
+    gem i bundler --pre
 
+    rvm gemset create project_production
+    ~~~
+
+#### 安装配置nginx
+
+  * 安装
   ~~~
   apt-get install nginx
   ~~~
 
-  创建临时rails app目录
-
+  * 创建临时rails app目录
   ~~~
   mkdir -p /var/apps/project_production/shared/log
+  ~~
+
+  * 配置nginx配置
   ~~~
-  配置nginx
-
-  ~~~
-  vi /etc/nginx/nginx.conf
-
-  worker_processes 1
-
-  vi /etc/nginx/sites-available/project_production
+  vim /etc/nginx/sites-available/project_production
 
   upstream project-priducton-unicorn {
     server unix:/tmp/unicorn_project_production.sock fail_timeout=0;
@@ -84,6 +85,7 @@ description: ''
 
   server {
     listen      80;
+    server_name domain.name;
     access_log  /var/apps/project_production/shared/log/nginx_access.log;
 
     client_max_body_size 20M;
@@ -113,7 +115,11 @@ description: ''
   /etc/init.d/nginx restart
   ~~~
 
-* postgres安装
+  * 配置ssl
+
+    参考 https://ruby-china.org/topics/31983
+
+  * postgres安装
 
   ~~~
   apt-get install ibpq-dev postgresql-client postgresql postgresql-contrib
@@ -124,81 +130,89 @@ description: ''
   createdb project_production
   ~~~
 
-* 发布用户配置
-创建组 dev 和 用户 deploy
+### 发布用户配置
 
+  * 创建用户 deploy
   ~~~
-  groupadd dev
-  useradd -m -g dev -s /bin/bash deploy
-  passwd deploy #密码：hello4dsafetypa123456 这个地方复杂点，我们不会用这个用户登录
-  usermod -aG dev,www-data,rvm deploy
-  mkdir /home/deploy/.ssh
-  touch /home/deploy/.ssh/authorized_keys
-  vi /home/deploy/.ssh/authorized_keys
-  chown -R deploy:dev /home/deploy/.ssh/
-  chmod 700 /home/deploy/.ssh/
-  chmod 600 /home/deploy/.ssh/authorized_keys
-  创建rails app目录
+  vim /etc/ssh/sshd_config
+  PasswordAuthentication no
 
-  mkdir -p /var/apps/project_production
-  chown -R deploy:dev /var/apps/project_production
-  rm -rf /var/apps/project_production/current
+  adduser deploy
+  usermod -aG www-data,rvm,deploy
+  ~~~
+
+  * 配置ssh
+  ~~~
+  sudo su - deploy
+  touch /home/deploy/.ssh/authorized_keys
+  vim /home/deploy/.ssh/authorized_keys
+  chmod 600 /home/deploy/.ssh/authorized_keys
+  ~~~
   测试是否可以 ssh 到 deploy 用户
+
+
+  * 创建rails app目录
+  ~~~
+  mkdir -p /var/apps/project_production
+  chown -R deploy:deploy /var/apps/project_production
+  rm -rf /var/apps/project_production/current
 
   ssh deploy@xxxx
   echo gem: --no-ri --no-rdoc > ~/.gemrc
-  echo export EDITOR="vim" >> ~/.bashrc
   exit
   ~~~
 
+  * create the deploy link file.
+  `database.yml,.env,version.conf ..... `
 
-* deploy服务器
-
-  ~~~
-  sudo su - deploy
-  mkdir -p /var/apps/project_production/shared/config
-
-  vi /var/apps/project_production/shared/.versions.conf
-  ruby=ruby-2.2.3
-  ruby-gemset=4dsafety
-
-  vi /var/apps/project_production/shared/config/database.yml
-  default: &default
-    adapter: postgresql
-    encoding: unicode
-    pool: 5
-
-  development:
-    <<: *default
-    database: project_development
-
-  test:
-    <<: *default
-    database: project_test
-
-  staging:
-    <<: *default
-    database: project_staging
-    username: project_staging
-    password: <%= ENV['PROJECT_DATABASE_PASSWORD_STG'] %>
-
-  production:
-    <<: *default
-    database: project_production
-    username: project
-    password: <%= ENV['PROJECT_DATABASE_PASSWORD_PROD'] %>
-
-  vi /var/apps/project_production/shared/.evn
-  PROJECT_DATABASE_PASSWORD_STG=PROJECT_DATABASE_PASSWORD_STG
-  PROJECT_DATABASE_PASSWORD_PROD=PROJECT_DATABASE_PASSWORD_PROD
-  STG_SECRET_KEY_BASE=STG_SECRET_KEY_BASE
-  PROD_SECRET_KEY_BASE=PROD_SECRET_KEY_BASE
-  ~~~
-
-* logrotate
+#### monit
+  所有的配置都放/etc/monit/cong-available 中，使用的是/etc/monit/cong-enabled中
+  * postgreslq 监控
 
   ~~~
-  vim /etc/logrotate.d/4d_safety_web
+    vim  /etc/monit/conf-available/pg
+    check process postgres with pidfile /var/postgres/postmaster.pid
+      group database
+      start program = "/etc/init.d/postgresql start"
+      stop  program = "/etc/init.d/postgresql stop"
+      if failed unixsocket /var/run/postgresql/.s.PGSQL.5432 protocol pgsql
+         then restart
+      if failed host 192.168.1.1 port 5432 protocol pgsql then restart
+  ~~~
+
+  * nginx 监控
+  ~~~
+  vim  /etc/monit/conf-available/nginx
+  check process nginx with pidfile /var/run/nginx.pid
+    group www
+    group nginx
+    start program = "/etc/init.d/nginx start"
+    stop program = "/etc/init.d/nginx stop"
+    if failed port 80 protocol http request "/" then restart
+    if 5 restarts with 5 cycles then timeout
+    depend nginx_bin
+    depend nginx_rc
+
+  check file nginx_bin with path /usr/sbin/nginx
+    group nginx
+    include /etc/monit/templates/rootbin
+
+  check file nginx_rc with path /etc/init.d/nginx
+    group nginx
+    include /etc/monit/templates/rootbin
+  ~~~
+
+  * puma监控
+  ~~~
+  check process puma with pidfile /var/apps/project_production/tmp/pids/puma.pid
+  start program = "/bin/su - root -c '/etc/init.d/puma start'" with timeout 50 seconds
+  stop program = "/etc/init.d/puma stop"
+  ~~~
+
+
+#### logrotate
+  ~~~
+  vim /etc/logrotate.d/project_production
   /var/apps/project_production/shared/log/var/rails_apps/wcs_production/shared/log/*.log {
   daily
   missingok
