@@ -47,6 +47,7 @@ system is ubuntu 14.00
   * 安装rails 环境
 
     * rvm
+
     ~~~
     curl -L https://get.rvm.io | bash -s stable
     ~~~
@@ -66,16 +67,19 @@ system is ubuntu 14.00
 #### 安装配置nginx
 
   * 安装
+
   ~~~
   apt-get install nginx
   ~~~
 
   * 创建临时rails app目录
+
   ~~~
   mkdir -p /var/apps/project_production/shared/log
-  ~~
+  ~~~
 
   * 配置nginx配置
+
   ~~~
   vim /etc/nginx/sites-available/project_production
 
@@ -133,6 +137,7 @@ system is ubuntu 14.00
 ### 发布用户配置
 
   * 创建用户 deploy
+
   ~~~
   vim /etc/ssh/sshd_config
   PasswordAuthentication no
@@ -142,6 +147,7 @@ system is ubuntu 14.00
   ~~~
 
   * 配置ssh
+
   ~~~
   sudo su - deploy
   touch /home/deploy/.ssh/authorized_keys
@@ -152,6 +158,7 @@ system is ubuntu 14.00
 
 
   * 创建rails app目录
+
   ~~~
   mkdir -p /var/apps/project_production
   chown -R deploy:deploy /var/apps/project_production
@@ -163,6 +170,7 @@ system is ubuntu 14.00
   ~~~
 
   * create the deploy link file.
+
   `database.yml,.env,version.conf ..... `
 
 #### monit
@@ -181,6 +189,7 @@ system is ubuntu 14.00
   ~~~
 
   * nginx 监控
+
   ~~~
   vim  /etc/monit/conf-available/nginx
   check process nginx with pidfile /var/run/nginx.pid
@@ -203,6 +212,7 @@ system is ubuntu 14.00
   ~~~
 
   * puma监控
+
   ~~~
   check process puma with pidfile /var/apps/project_production/tmp/pids/puma.pid
   start program = "/bin/su - root -c '/etc/init.d/puma start'" with timeout 50 seconds
@@ -211,6 +221,7 @@ system is ubuntu 14.00
 
 
 #### logrotate
+
   ~~~
   vim /etc/logrotate.d/project_production
   /var/apps/project_production/shared/log/var/rails_apps/wcs_production/shared/log/*.log {
