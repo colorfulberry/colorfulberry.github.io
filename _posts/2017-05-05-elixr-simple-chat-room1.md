@@ -1,13 +1,13 @@
 ---
 layout: post
-title: elixir／Phoenix 简单聊天室1-实现聊天
+title: Phoenix 简单聊天室1-实现聊天
 categories: [聊天室]
 tags: [elixir, phoenix, jquery, pg, chatroom]
 comments: true
 description: 'exlir 在线聊天室'
 ---
 
-### elixir简单聊天室
+### elixir简单聊天室[repo](https://github.com/colorfulberry/chatroom)
 
 默认用Elixir 1.4.0, pg
 
@@ -98,6 +98,7 @@ end
 用web sockets 来创建聊天室
 
 * 添加聊天室页面
+
 ~~~
 #web/templates/page/index.html.eex
 <div class="chat container">

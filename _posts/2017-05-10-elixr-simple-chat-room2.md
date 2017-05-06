@@ -1,13 +1,13 @@
 ---
 layout: post
-title: elixir／Phoenix 简单聊天室2-显示用户名和在线人数
+title: Phoenix 简单聊天室2-显示用户名和在线人数
 categories: [聊天室]
 tags: [elixir, phoenix, jquery, pg, chatroom]
 comments: true
 description: 'exlir 在线聊天室，示用户名和在线人数'
 ---
 
-### 显示用户名
+### 显示用户名[repo](https://github.com/colorfulberry/chatroom)
 
 * 设置用户的token
 ~~~
@@ -28,6 +28,7 @@ end
 
 
 * 把userToken 放到 window中
+
 ~~~
 #web/templates/layout/app.html.eex
 ....
@@ -73,6 +74,7 @@ end
 #### 显示在线人数
 
 * 初始化[Phoenix.Presence](http://hexdocs.pm/phoenix/Phoenix.Presence.html)
+
 ~~~
 mix phoenix.gen.presence
 
@@ -84,6 +86,7 @@ supervisor(Chatroom.Presence, []),
 ~~~
 
 * 在chatroom channel中使用presence
+
 ~~~
 # web/channels/room_channel.ex
 ...
