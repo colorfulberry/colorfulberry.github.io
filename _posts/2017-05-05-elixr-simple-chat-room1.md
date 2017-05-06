@@ -128,6 +128,7 @@ end
 ~~~
 
 * 添加聊天室样式
+
 ~~~
 #phoenix.css
 ....
@@ -214,6 +215,7 @@ chatMessages.appendChild(template);
 ~~~
 
 server 短执行处理发送新消息
+
 ~~~
 # web/channels/room_channel.ex
 def handle_in("message:new", payload, socket) do

@@ -28,7 +28,6 @@ end
 
 
 * 把userToken 放到 window中
-
 ~~~
 #web/templates/layout/app.html.eex
 ....
@@ -37,6 +36,7 @@ end
 ~~~
 
 * 在sockes中捕获userToken并获取用户名
+
 ~~~
 # web/channels/user_socket.ex
 ......
@@ -55,6 +55,7 @@ end
 ~~~
 
 * 从channel连接中接受token，验证后存入socket
+
 ~~~
 # web/channels/room_channel.ex
 defmodule Chatroom.RoomChannel do
