@@ -177,7 +177,7 @@ system is ubuntu 14.00
   * postgres安装
 
   ~~~
-  apt-get install postgresql postgresql-contrib
+  apt-get install  libpq-dev postgresql postgresql-contrib
   sudo -u postgres psql
   create role deploy;
   alter role deploy login;
