@@ -1,5 +1,5 @@
 body{
-    background:#000 url("bg.jpg") no-repeat center 15px;
+    background:#000 url("bg2_1.jpg") no-repeat center 15px;
 }
 
 #wrapper{
@@ -43,14 +43,13 @@ body{
 #lottery-control a{
     float: right;
     font-size: 12px;
-    color: #fff;
+    color: green;
     font-weight: 700;
 }
 
 #lottery-control a:first-child{
     float: left;
     font-size: 12px;
-    color: #fff;
     font-weight: 700;
 }
 

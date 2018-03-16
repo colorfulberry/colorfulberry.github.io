@@ -2,41 +2,22 @@
 <html lang="en">
 <head>
 <meta content="text/html; charset=utf-8" http-equiv="content-type" />
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<title>Photo Lottery Example</title>
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<title>辛福海</title>
 <link rel="stylesheet" type="text/css" href="res/lottery.css" />
+<link rel="stylesheet" type="text/css" href="res/fireworks.css" />
+<style>.stop .snow{visibility: hidden;}</style>
 </head>
-<body>
+<body class="byphone stop">
 
 <div id="wrapper">
     <div id="lottery">
         <div id="lottery-hero">
-            <img src="pic/" alt="" style="display:none" />
+            <span></span>
         </div>
 
-        <div id="lottery-container">
-            <ul>
-                <li><img src="pic/1.jpg"></li>
-                <li><img src="pic/2.jpg"></li>
-                <li><img src="pic/3.jpg"></li>
-                <li><img src="pic/4.jpg"></li>
-                <li><img src="pic/5.jpg"></li>
-                <li><img src="pic/6.jpg"></li>
-                <li><img src="pic/7.jpg"></li>
-                <li><img src="pic/8.jpg"></li>
-                <li><img src="pic/9.jpg"></li>
-                <li><img src="pic/10.jpg"></li>
-                <li><img src="pic/11.jpg"></li>
-                <li><img src="pic/12.jpg"></li>
-                <li><img src="pic/13.jpg"></li>
-                <li><img src="pic/14.jpg"></li>
-                <li><img src="pic/15.jpg"></li>
-                <li><img src="pic/16.jpg"></li>
-                <li><img src="pic/17.jpg"></li>
-                <li><img src="pic/18.jpg"></li>
-                <li><img src="pic/19.jpg"></li>
-                <li><img src="pic/20.jpg"></li>
-            </ul>
+        <div id="lottery-container" data-url="phone.txt">
+            <ul></ul>
         </div>
         <div id="lottery-control">
             <a href="#" onclick="Lottery.start()">START</a>
@@ -47,7 +28,8 @@
 </div>
 
 <script type="text/javascript" src="res/jquery-1.9.0.min.js"></script>
-<script type="text/javascript" src="res/lottery.js"></script>
+<script type="text/javascript" src="res/snowstorm.js"></script>
+<script type="text/javascript" src="res/lottery_phone.js"></script>
 
 
 </body>
