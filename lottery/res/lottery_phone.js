@@ -25,12 +25,12 @@ var Lottery = (function() {
     , curPos          = 0
     ;
 
-  // var stopAudio       = new Audio("res/ping.mp3")
-  //   , backAudio       = new Audio("res/back.mp3")
-  //   ;
+  var stopAudio       = new Audio("res/ping.mp3")
+    , backAudio       = new Audio("res/back.mp3")
+    ;
 
 
-  // backAudio.loop = true;
+  backAudio.loop = true;
 
   var $container      = $("#lottery-container")
     , $content        = $("#lottery-container ul")
@@ -65,8 +65,8 @@ var Lottery = (function() {
   var start  = function() {
     clearInterval(timer);
 
-    // backAudio.play();
-    // stopAudio.pause();
+    backAudio.play();
+    stopAudio.pause();
     $(document.body).addClass("stop");
 
     timer = setInterval(function() {
@@ -87,8 +87,8 @@ var Lottery = (function() {
     clearInterval(timer);
     timer = null;
 
-    // backAudio.pause();
-    // stopAudio.play();
+    backAudio.pause();
+    stopAudio.play();
     $(document.body).removeClass("stop");
 
     //Roll at the half width?
