@@ -239,7 +239,7 @@ system is ubuntu 14.00
   /var/apps/project_production/shared/log/var/rails_apps/wcs_production/shared/log/*.log {
   daily
   missingok
-  rotate 14
+  rotate 7
   compress
   delaycompress
   notifempty
@@ -247,3 +247,6 @@ system is ubuntu 14.00
   }
   /etc/init.d/rsyslog restart
   ~~~
+
+  * 测试
+  logrotate -fv /etc/logrotate.d/project_production
