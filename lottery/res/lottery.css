@@ -1,5 +1,6 @@
 body{
-    background:#33C4C0 url("./bg2_1.jpeg") no-repeat center 15px;
+    background:#33C4C0 url("./bg2-2.jpeg") no-repeat center 15px;
+    background-size: 100%;
 }
 
 #wrapper{
@@ -37,20 +38,24 @@ body{
 #lottery-control {
   height: 14px;
   margin: 40px auto 0;
-  width: 100px;
+  width: 400px;
 }
 
 #lottery-control a{
+    color: white;
+    padding: 16px;
+    background-color: red;
     float: right;
-    font-size: 12px;
-    color: green;
-    font-weight: 700;
+    font-size: 3rem;
+    text-decoration:none;
+}
+
+a:hover {
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
 }
 
 #lottery-control a:first-child{
     float: left;
-    font-size: 12px;
-    font-weight: 700;
 }
 
 #lottery-container {

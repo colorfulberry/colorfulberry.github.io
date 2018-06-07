@@ -46,13 +46,13 @@ var Lottery = (function() {
     timer = setInterval(function() {
 
       curPos = parseInt($content.css("left")) | 0;
-      curPos -= itemWidth / 2;
+      curPos -= itemWidth;
 
       (curPos < 0 - itemWidth * itemCount) && (curPos = 0);
 
       $content.css("left", curPos);
 
-    }, 25);
+    }, 75);
 
     $hero.hide();
   };
@@ -65,7 +65,7 @@ var Lottery = (function() {
     stopAudio.play();
 
     //Roll at the half width?
-    (curPos % itemWidth == 0 - itemWidth / 2) && (curPos = curPos - itemWidth / 2);
+    (curPos % itemWidth == 0 - itemWidth) && (curPos = curPos - itemWidth);
 
     var selected  = getCurIdx();
 
