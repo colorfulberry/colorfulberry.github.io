@@ -78,7 +78,7 @@ var Lottery = (function() {
 
       $content.css("left", curPos);
 
-    }, 50);
+    }, 90);
 
     $hero.hide();
   };
