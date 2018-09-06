@@ -1,1 +1,1 @@
-sns.xiyoujikeji.net
+https://sns.xiyoujikeji.net
