@@ -241,6 +241,7 @@ system is ubuntu 14.00
   ~~~
 
   ~~~
+    $ systemctl demand-reload
     $ systemctl enable puma
   ~~~
 
