@@ -207,35 +207,20 @@ system is ubuntu 14.00
     After=network.target
 
     [Service]
-    # Background process configuration (use with --daemon in ExecStart)
-    Type=forking
+    # Background process configuration (use with —daemon in ExecStart)
+    Type=simple
     Environment="RAILS_ENV=production"
-    # Preferably configure a non-privileged user
-    User=deploy
+    User=ec2-user
 
-    # The path to the puma application root
-    # Also replace the "<WD>" place holders below with this path.
-    WorkingDirectory=/var/app5/project_production/current/
+    WorkingDirectory=/var/apps/prima_production/current/
 
-    # The command to start Puma
-    # (replace "<WD>" below)
-    ExecStart=/usr/local/rvm/wrappers/ruby-2.4.5@project_production/bundle exec puma -C /var/app5/project_production/shared/puma.rb --daemon
+    ExecStart=/usr/local/rvm/wrappers/ruby-2.4.5@prima_production/bundle exec puma -C /var/apps/prima_production/shared/puma.rb
 
-    # The command to stop Puma
-    # (replace "<WD>" below)
-    ExecStop=/usr/local/rvm/wrappers/ruby-2.4.5@project_production/bundle exec pumactl -S /var/app5/project_production/shared/tmp/pids/puma.state stop
+    ExecStop=/usr/local/rvm/wrappers/ruby-2.4.5@prima_production/bundle exec pumactl -S /var/apps/prima_production/shared/tmp/pids/puma.state stop
 
-    # Path to PID file so that systemd knows which is the master process
-    PIDFile=/var/app5/project_production/current/shared/tmp/pids/puma.pid
+    PIDFile=/var/apps/prima_production/shared/tmp/pids/puma.pid
 
-    # Should systemd restart puma?
-    # Use "no" (the default) to ensure no interference when using
-    # stop/start/restart via `pumactl`.  The "on-failure" setting might
-    # work better for this purpose, but you must test it.
-    # Use "always" if only `systemctl` is used for start/stop/restart, and
-    # reconsider if you actually need the forking config.
     Restart=always
-
     [Install]
     WantedBy=multi-user.target
   ~~~
