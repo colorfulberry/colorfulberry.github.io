@@ -24,7 +24,7 @@ system is ubuntu 14.00
   ~~~
   apt-get update
   apt-get upgrade
-  apt-get install make gcc openssl libssl-dev git tig monit unzip
+  apt-get install make gcc openssl libssl-dev git tig unzip
   ~~~
 
   * 修改时区(重起系统生效) 和 自动同步时间
@@ -190,45 +190,58 @@ system is ubuntu 14.00
   * postgreslq 监控
 
   ~~~
-    vim  /etc/monit/conf-available/pg
-    check process postgres with pidfile /var/postgres/postmaster.pid
-      group database
-      start program = "/etc/init.d/postgresql start"
-      stop  program = "/etc/init.d/postgresql stop"
-      if failed unixsocket /var/run/postgresql/.s.PGSQL.5432 protocol pgsql
-         then restart
-      if failed host 192.168.1.1 port 5432 protocol pgsql then restart
+    $ systemctl enable postgres
   ~~~
 
   * nginx 监控
 
   ~~~
-  vim  /etc/monit/conf-available/nginx
-  check process nginx with pidfile /var/run/nginx.pid
-    group www
-    group nginx
-    start program = "/etc/init.d/nginx start"
-    stop program = "/etc/init.d/nginx stop"
-    if failed port 80 protocol http request "/" then restart
-    if 5 restarts with 5 cycles then timeout
-    depend nginx_bin
-    depend nginx_rc
-
-  check file nginx_bin with path /usr/sbin/nginx
-    group nginx
-    include /etc/monit/templates/rootbin
-
-  check file nginx_rc with path /etc/init.d/nginx
-    group nginx
-    include /etc/monit/templates/rootbin
+    $ systemctl enable nginx
   ~~~
 
-  * puma监控
+  * puma 监控
+  vim /etc/systemd/system/puma.service
+  ~~~
+    [Unit]
+    Description=Puma HTTP Forking Server
+    After=network.target
+
+    [Service]
+    # Background process configuration (use with --daemon in ExecStart)
+    Type=forking
+    Environment="RAILS_ENV=production"
+    # Preferably configure a non-privileged user
+    User=deploy
+
+    # The path to the puma application root
+    # Also replace the "<WD>" place holders below with this path.
+    WorkingDirectory=/var/app5/project_production/current/
+
+    # The command to start Puma
+    # (replace "<WD>" below)
+    ExecStart=/usr/local/rvm/wrappers/ruby-2.4.5@project_production/bundle exec puma -C /var/app5/project_production/shared/puma.rb --daemon
+
+    # The command to stop Puma
+    # (replace "<WD>" below)
+    ExecStop=/usr/local/rvm/wrappers/ruby-2.4.5@project_production/bundle exec pumactl -S /var/app5/project_production/shared/tmp/pids/puma.state stop
+
+    # Path to PID file so that systemd knows which is the master process
+    PIDFile=/var/app5/project_production/current/shared/tmp/pids/puma.pid
+
+    # Should systemd restart puma?
+    # Use "no" (the default) to ensure no interference when using
+    # stop/start/restart via `pumactl`.  The "on-failure" setting might
+    # work better for this purpose, but you must test it.
+    # Use "always" if only `systemctl` is used for start/stop/restart, and
+    # reconsider if you actually need the forking config.
+    Restart=always
+
+    [Install]
+    WantedBy=multi-user.target
+  ~~~
 
   ~~~
-  check process puma with pidfile /var/apps/project_production/tmp/pids/puma.pid
-  start program = "/bin/su - root -c '/etc/init.d/puma start'" with timeout 50 seconds
-  stop program = "/etc/init.d/puma stop"
+    $ systemctl enable puma
   ~~~
 
 
