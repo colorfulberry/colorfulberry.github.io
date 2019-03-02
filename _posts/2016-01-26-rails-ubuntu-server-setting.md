@@ -235,7 +235,7 @@ system is ubuntu 14.00
 
   ~~~
   vim /etc/logrotate.d/project_production
-  /var/apps/project_production/shared/log/var/rails_apps/wcs_production/shared/log/*.log {
+  /var/apps/project_production/shared/log/*.log {
   daily
   missingok
   rotate 7
@@ -248,4 +248,4 @@ system is ubuntu 14.00
   ~~~
 
   * 测试
-  logrotate -fv /etc/logrotate.d/project_production
+  logrotate --force /etc/logrotate.d/project_production
