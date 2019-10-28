@@ -244,7 +244,7 @@ system is ubuntu 14.00
   notifempty
   copytruncate
   }
-  /etc/init.d/rsyslog restart
+  systemctl restart rsyslog
   ~~~
 
   * 测试
