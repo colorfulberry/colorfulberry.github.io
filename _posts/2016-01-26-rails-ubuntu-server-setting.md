@@ -230,6 +230,28 @@ system is ubuntu 14.00
     $ systemctl enable puma
   ~~~
 
+#### sidekiq for system for centos
+vim /etc/systemd/system/sidekiq.service
+```
+[Unit]
+Description=sidekiq
+After=syslog.target network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/var/apps/project/current/
+# If you use rbenv:
+# ExecStart=/bin/bash -lc '/home/deploy/.rbenv/shims/bundle exec sidekiq -e production'
+# If you use the system's ruby:
+# ExecStart=/usr/local/bin/bundle exec sidekiq -e production
+ExecStart=/usr/local/rvm/bin/rvm 2.6.0@project do bundle exec sidekiq -e production -C config/sidekiq.yml
+User=deploy
+Group=deploy
+UMask=0002
+
+[Install]
+WantedBy=multi-user.target
+```
 
 #### logrotate
 
