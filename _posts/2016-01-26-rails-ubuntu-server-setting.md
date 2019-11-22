@@ -49,7 +49,7 @@ system is ubuntu 14.00
     * rvm
 
     ~~~
-    curl -L https://get.rvm.io | bash -s stable
+    \curl -sSL https://get.rvm.io | bash -s stable
     ~~~
     退出登录后重新ssh进来
 
@@ -231,6 +231,8 @@ system is ubuntu 14.00
   ~~~
 
 #### sidekiq for system for centos
+`redis must be version than 4.0`
+
 vim /etc/systemd/system/sidekiq.service
 ```
 [Unit]
